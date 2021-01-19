@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+    <ul>
+        {% for item in qs %}
+          <li>{{item}}</li>
+        {% endfor %}
+        
+    </ul>
+{% endblock content %}

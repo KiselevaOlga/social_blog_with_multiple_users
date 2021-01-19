@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+    <h1>My profile</h1>
+    <h2>Profile of : {{profile.user}}</h2>
+    {{profile}}<br>
+    {% for friend in profile.get_friends %}
+        {{friend}}<br>
+    {% endfor %}
+    <h3>Number of likes given: {{profile.get_likes_given_no}}</h3>
+    <h3>how many posts: {{profile.get_posts_no}}</h3>
+    {% for item in profile.get_all_authors_posts%}
+        <h3>Posts about: {{item}}</h3>
+    {% endfor %}
+    How many friends does {{request.user}} has? The answer is {{profile.get_friends_no}}
+    <img src="{{profile.avatar.url}}" class="img-thumbnail">
+    {% if confirm %}
+    <h1>Updated</h1>
+    {% endif %}
+<!--WRAP  IT InTO MODAL-->
+    <form method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-primary" value="Update">
+    </form>
+    {% if request.user in group.members.all %}
+        <h1>Ehee</h1>
+    {% else %}
+        <h1>hohoh</h1>
+    {%endif%}
+{% endblock %}

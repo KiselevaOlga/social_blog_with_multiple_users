@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+  {% for post in posts %}
+    {{post.content}}, 
+    {{post.author}}
+  {% endfor %}
+  
+{% endblock content %}

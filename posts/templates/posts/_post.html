@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<!--# _POST FILE IN POSTS APP-->
+<div class="container">
+    <h3>{{post.content}}</h3>
+    <h4>@{{post.author}}</h4>
+    <time class="time">
+        <a href="{% url 'posts:single' pk=post.pk %}">
+            {{post.created}}</a>
+    </time>
+    {% if user.is_authenticated and request.user == post.author.user %}
+        <a href="{% url 'posts:post-delete' pk=post.pk%}" title="delete">
+        <button type="button" class="btn btn-danger" aria-hidden="true">DELETE
+        <i class="fas fa-times"></i></button></a>
+    {% endif %}
+</div>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+  
+  {% if is_empty %}
+    <h1>No invitations here, may be next time...</h1>
+  {% endif %}
+
+  {% for obj in qs %}
+    <!-- use div card -->
+    <img style="width: 10%" class="img-thumbnail" src="{{ obj.avatar.url }}"><br>
+    <h3>{{obj.user}}</h3>
+    <h3>{{obj.bio}}</h3>
+    <button href="">See profile</button><br>
+    
+    <form method="post" action="{% url 'profiles:accept_invite' %}">
+      {% csrf_token %}
+      <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
+      <button class="btn btn-succes" type="submit">Accept invite</button>
+    </form>
+    
+    <form method="post" action="{% url 'profiles:reject_invite' %}">
+      {% csrf_token %}
+      <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
+      <button class="btn btn-danger" type="submit">Reject invite</button>
+    </form>
+  {% endfor %}
+{% endblock content %}

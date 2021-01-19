@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h5>Your Groups</h5>
+        {#{% get_user_groups as user_groups %}#}
+        {% for member_group in get_user_groups %}
+            <h2><a href="{% url 'groups:single' slug=member_group.group.slug %}">{{member_group.group.name}}</a></h2>
+        {% endfor %}
+    {% endif %}
+    <h5>All groups</h5>
+    {#{% get_other_groups as other_groups %}#}
+    {% for other_group in get_other_groups %}
+        <h2><a href="{% url 'groups:single' slug=other_group.slug %}">
+            {{ other_group.name }}
+        </a></h2>
+    {% endfor %}
+
+    {% for post in post_list %}
+        {% include 'posts/_post.html' %}
+    {% endfor %}
+{% endblock %}
