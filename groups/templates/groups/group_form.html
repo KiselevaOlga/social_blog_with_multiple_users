@@ -2,11 +2,11 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load bootstrap4 %}
-    <h2>Create new group</h2>
+    <h2 style="margin-top:10px;">Create new group</h2><hr style="width:25%;">
     <form method="post" action="{% url 'groups:create'%}" id="groupForm">
         {% csrf_token %}
         {% bootstrap_form form %}
-        <input type="submit" value="create" class="btn btn-primary btn-lg">
+        <input type="submit" value="Create" class="btn btn-lg btn-primary ">
     </form>
 
 {% endblock %}

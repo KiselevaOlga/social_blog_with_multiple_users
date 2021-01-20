@@ -31,11 +31,17 @@
 }
 
 /*for home page*/
+
+.btn, .card{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 #home-header{
     color: black;
 }
-@media screen (max-width: 650px) {
-    .well .sidebar-nav {
-        display: none;
-    }
+#member_join_leave, #members_in_group{
+    width: 200px;
+    margin: 20px;
+    display: inline;
 }

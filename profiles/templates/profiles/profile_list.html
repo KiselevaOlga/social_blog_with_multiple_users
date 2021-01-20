@@ -34,12 +34,5 @@
       {% endif %}
       <p>--------------------------------------------------------------------------------</p>
     {% endfor %}
-      
-    <ul>
-      <!-- if not using context name, than should aproach with object_list instead of qs -->
-        {% for item in qs %}
-          <li>Profile available: {{item}}</li>
-        {% endfor %}
-        
-    </ul>
+
 {% endblock content %}

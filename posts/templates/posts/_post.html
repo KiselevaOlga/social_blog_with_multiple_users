@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <!--# _POST FILE IN POSTS APP-->
 <div class="container">
-    <h3>{{post.content}}</h3>
-    <h4>@{{post.author}}</h4>
-    <time class="time">
-        <a href="{% url 'posts:single' pk=post.pk %}">
-            {{post.created}}</a>
-    </time>
-    {% if user.is_authenticated and request.user == post.author.user %}
-        <a href="{% url 'posts:post-delete' pk=post.pk%}" title="delete">
-        <button type="button" class="btn btn-danger" aria-hidden="true">DELETE
-        <i class="fas fa-times"></i></button></a>
-    {% endif %}
+    <a href="{% url 'profiles:profile_detail_view' slug=post.author.slug %}">
+    <h4 class='card-header'>@{{post.author}}</h4> </a>
+    <p class="card-text">{{post.content}}</p>
+    <div class="card-footer">
+        <a href="{% url 'posts:single' pk=post.pk %}"><button style="margin: 5px;" class="btn btn-primary">DETAILS</button></a>
+            <time class="time">
+                    {{post.created|timesince}} ago</a>
+            </time>
+        {% if user.is_authenticated and request.user == post.author.user %}
+            <a href="{% url 'posts:post-delete' pk=post.pk%}" title="delete">
+            <button type="button" class="btn btn-danger" aria-hidden="true" style="margin: 5px;" >DELETE
+            <i class="fas fa-times"></i></button></a>
+            <a href="{% url 'posts:post-update' pk=post.pk%}"><button style="margin: 5px;"  class="btn btn-primary">UPDATE</button></a>
+            
+        {% endif %}
+    </div>
 </div>

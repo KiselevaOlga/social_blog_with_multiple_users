@@ -2,26 +2,26 @@
 {% extends 'base.html' %}
 {% block content %}
     {% if user.is_authenticated %}
-        <h2>Welcome back @{{user.username}}!</h2>
+        <h2 class="header">Welcome back @{{user.username}}!</h2>
     {% endif %}
-    <h2>Groups</h2>
-    <h3>Welcome to a groups page!</h3>
     {% if user.is_authenticated %}
-        <a href="{% url 'groups:create'%}" class="btn btn-md btn-fill btn-primary">
-            <i class="fas fa-users">Create new group</i></a>
+        <a href="{% url 'groups:create'%}" class="btn btn-lg btn-fill btn-primary">
+            <i class="fas fa-users">Create new group</i></a><br>
         <!-- написать функцию, которая бы показывала в какиx группах -->
     {% endif %}
     {% for group in object_list %}
-        <div class="card">
-            <div class="card-body">
-                <a href="{% url 'groups:single' slug=group.slug%}">
-                <h3 class='card-header'>{{group.name}}</h3>
-                <p>{{group.description_html|safe}}</p>
-                <p class='card-link'>{{group.members.count}}</p>
-                <p class='card-link'>member{{group.members.count|pluralize}}</p>
-                <p>{{group.posts.count}}</p>
-                <p>post{{group.posts.count|pluralize}}</p>
-            </div> 
+        <div class='row-cols-lg-2'>
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'groups:single' slug=group.slug%}" class="text-decoration-none">
+                    <h3 class='card-header'>{{group.name}}</h3></a>
+                    <p class=''>{{group.description_html|safe}}</p>
+                    <div class='card-footer'>
+                        <h5 class='card-link'> {{group.members.count}} member{{group.members.count|pluralize}}
+                            {{group.posts.count}} post{{group.posts.count|pluralize}}</h5>
+                    </div>
+                </div> 
+            </div>
         </div>            
     {% endfor %}
 {% endblock %}

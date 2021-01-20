@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Profile, Relationship
+from .models import Profile, Relationship, Group, GroupMember
 # Create your views here.
 from .forms import ProfileModelForm
 from django.views import generic
@@ -80,6 +80,7 @@ def my_profile(request):
             confirm = True
     context = {'profile': profile, 'form': form, 'confirm': confirm,}
     return render(request, 'profiles/myprofile.html', context)
+
 
 @login_required
 def invites_received_view(request):
