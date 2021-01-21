@@ -11,7 +11,7 @@
       <h2>{{obj.user}}</h2>
       <h3>{{obj.bio}}</h3>
       
-      <img class="img-thumbnail" style="width:10%" src="{{obj.avatar.url}}">
+      <img class="mr-3 mt-3 rounded-circle avatar" src="{{obj.avatar.url}}">
       <a href="{{obj.get_absolute_url}}"><button class="btn btn-primary">See profile</button></a>
       {% if obj.user not in rel_receiver and obj.user not in rel_sender %}
         <form method="POST" action="{% url 'profiles:send_invite'%}">

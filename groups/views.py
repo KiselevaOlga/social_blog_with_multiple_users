@@ -21,6 +21,10 @@ class SingleGroup(generic.DetailView):
 class ListGroup(generic.ListView):
     model = Group
 
+class ListMembersGroup(generic.DetailView):
+    model = Group
+    template_name = 'groups/group_member_list.html'
+
 
 class JoinGroup(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):

@@ -2,7 +2,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {% if user.is_authenticated %}
-        <h2 class="header">Welcome back @{{user.username}}!</h2>
+        <h2 class="header">Welcome back {{user.username}}!</h2>
     {% endif %}
     {% if user.is_authenticated %}
         <a href="{% url 'groups:create'%}" class="btn btn-lg btn-fill btn-primary">

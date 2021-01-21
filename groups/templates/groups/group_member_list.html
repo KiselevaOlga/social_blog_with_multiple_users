@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'base.html'%}
+{% block content %}
+    <h1><a href="{% url 'groups:single' slug=group.slug %}">{{group.name}}</a></h1><hr>
+    <h1>Members: {{group.members.count}}</h1>
+    <ul class="list-inline">
+        {% for name in group.members.all %}
+            <li class="list-inline-item">
+                <div class="media border p-3" style="margin:10px;">
+                    <img class="align-self-center avatar" style="margin-right: 20px;"src="{{name.avatar.url}}">
+                    <div class="media-body">
+                        <h5>{{name}}</h5>
+                        <a href="{% url 'profiles:profile_detail_view' slug=name.slug %}">
+                        <button class="btn btn-primary">See profile</button></a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

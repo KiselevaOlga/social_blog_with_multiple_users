@@ -2,43 +2,48 @@
 {% extends 'base.html' %}
 {% block content %}
     {% for obj in qs %}
-        {% ifequal request.user obj.author.user %}
-            <a href="{% url 'posts:post-update' obj.pk %}"><button class="btn btn-primary">Update</button></a>
-            <a href="{% url 'posts:post-delete' obj.pk %}"><button class="btn btn-primary">Delete</button></a>
-            <a href="{% url 'posts:single' obj.pk %}"><button class="btn btn-primary">detail</button></a>
-        {% endifequal %}
-        <img class="img-thumbnail" src="{{obj.author.avatar.url}} "style="width:20%"> 
-        {{ obj.author.user }} - {{ obj.created|timesince}} ago
-        {% if obj.image %}
-            <img src="{{obj.image.url}}" style="width:30%">
-        {% endif %} 
-        <p> {{ obj.content }} </p>
-        <form action="{% url 'posts:like-post-view' %}" method="POST" id='{{obj.id}}' >
-            {% csrf_token %}
-            <input type="hidden" name="post_id" value="{{obj.id}}">
-            <button type="submit" class="btn btn-primary {{obj.id}}">
-            {% if profile not in obj.liked.all %}
-                Like
-            {% else %}
-                Unlike
-            {% endif %}
-            </button>
-            <div class="{{obj.id}}"> {{obj.num_likes}} </div>
-                likes
-        </form>
-        <h3> {{ obj.num_comments }} comments</h3>
-        {% if obj.comment_set.all %}
-            {% for c in obj.comment_set.all %}
-            <img class="img-thumbnail" src="{{c.user.avatar.url}}" style="width:15%">
-            <h3>{{ c.user }}</h3>
-            <p>{{ c.body }}</p>
-            {% endfor %}
-        {% endif %}
-        <form action="" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="post_id" value="{{obj.id}}"> 
-            {{ c_form }}
-            <button type="submit" name="submit_c_form" class="btn btn-primary">Send</button>
-        </form>
+        <div class="media">
+            {% if obj.image %}
+                <img src="{{obj.image.url}}" style="width:30%; margin: 20px;">
+            {% endif %} 
+            <div class="media-body">
+                {% ifequal request.user obj.author.user %}
+                    <a href="{% url 'posts:post-update' obj.pk %}"><button class="btn btn-primary">Update</button></a>
+                    <a href="{% url 'posts:post-delete' obj.pk %}"><button class="btn btn-primary">Delete</button></a>
+                {% endifequal %}
+                <img class="mr-3 mt-3 rounded-circle avatar" src="{{obj.author.avatar.url}}"> 
+                {{ obj.author.user }} - {{ obj.created|timesince}} ago
+                
+                <p> {{ obj.content }} </p>
+                <a href="{% url 'posts:single' obj.pk %}"><button class="btn btn-primary">detail</button></a>
+                <form action="{% url 'posts:like-post-view' %}" method="POST" id='{{obj.id}}' >
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{obj.id}}">
+                    <button type="submit" class="btn btn-primary {{obj.id}}">
+                    {% if profile not in obj.liked.all %}
+                        Like
+                    {% else %}
+                        Unlike
+                    {% endif %}
+                    </button>
+                    <div class="{{obj.id}}"> {{obj.num_likes}} </div>
+                        likes
+                </form>
+                <h3> {{ obj.num_comments }} comments</h3>
+                {% if obj.comment_set.all %}
+                    {% for c in obj.comment_set.all %}
+                    <img class="mr-3 mt-3 rounded-circle avatar" src="{{c.user.avatar.url}}">
+                    <h3>{{ c.user }}</h3>
+                    <p>{{ c.body }}</p>
+                    {% endfor %}
+                {% endif %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{obj.id}}"> 
+                    {{ c_form }}
+                    <button type="submit" name="submit_c_form" class="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>
     {% endfor %}
 {% endblock content %}

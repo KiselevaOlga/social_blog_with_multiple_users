@@ -106,7 +106,7 @@ def like_unlike_post(request):
 
 class PostDetail(DetailView):
     template_name = "posts/post_detail.html"
-    queryset = Post.objects.all()
+    model = Post
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post

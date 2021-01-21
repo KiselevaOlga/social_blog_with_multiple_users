@@ -32,6 +32,14 @@
 
 /*for home page*/
 
+
+.avatar{
+    width: 100px;
+    height: 100px;
+    object-fit:cover;
+    border-radius: 50%;
+}
+
 .btn, .card{
     margin-top: 20px;
     margin-bottom: 20px;

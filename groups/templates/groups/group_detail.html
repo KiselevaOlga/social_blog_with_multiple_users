@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 {% extends 'base.html'%}
 {% block content %}
-    <h1>{{group.name}}</h1><hr>
-    <div class="dropdown" id='members_in_group'>
-        <button class="btn btn-lg btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-          Members: {{group.members.count}}
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {% for name in group.members.all %}
-                <li><a href="{% url 'profiles:profile_detail_view' slug=name.slug %}">{{name.slug}} {{name.id}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+    <h1>{{group.name}}</h1>
+    <h3>{{group.description_html|safe}}</h3><hr>
+
+    <button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#list_profiles_in_group">
+        Members: {{group.members.count}}
+    </button>
+    <ul id="list_profiles_in_group" class="collapse list-inline">
+        <li><a href="{% url 'groups:members_in_group' slug=group.slug %}">Show more...</a></li>
+        {% for name in group.members.all|slice:'5' %}
+            <li class="list-inline-item"><img class="mr-3 mt-3 rounded-circle avatar " src="{{name.avatar.url}}">
+                <a href="{% url 'profiles:profile_detail_view' slug=name.slug %}">{{name}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    
     <div id='member_join_leave'>
         {% if user in group.get_users %}
             <a href="{% url 'groups:leave' slug=group.slug%}" class="btn btn-lg btn-warning" >
@@ -21,23 +25,15 @@
             Join    <i class="fas fa-user-plus"></i></a>
         {%endif%}
     </div>
-
-    <div class="container">
-        {% if group.posts.count == 0 %}
-            <div class='card'>
-                <div class="card-body">
-                    <h2>No posts in this group yet!</h2>
-                </div>
+    {% if group.posts.count == 0 %}
+        <div class='card'>
+            <div class="card-body">
+                <h2>No posts in this group yet!</h2>
             </div>
-        {% else %}
-            {% for post in group.posts.all %}
-                <div class='card'>
-                    <div class="card-body">           
-                        {% include "posts/_post.html" %}
-                    </div>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>    
-    
+        </div>
+    {% else %}
+        {% for post in group.posts.all %}          
+            {% include "posts/_post.html" %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}
