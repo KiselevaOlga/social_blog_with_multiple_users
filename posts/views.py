@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from .models import Post, Like
+from django.urls import reverse, reverse_lazy
+from .models import Post, Like, Comment
 from profiles.models import Profile
 from .forms import PostModelForm, CommentModelForm
-from django.views.generic import UpdateView, DeleteView, DetailView
+from django.views.generic import UpdateView, DeleteView, DetailView, ListView, CreateView, FormView
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import FormMixin
 from braces.views import SelectRelatedMixin
 from itertools import chain
 # Create your views here.
@@ -29,6 +30,9 @@ def friends_posts(request):
     if len(posts) >0:
         qs = sorted(chain(*posts), reverse=True, key=lambda obj: obj.created)
     return render(request, 'posts/friends_posts.html', {'posts': qs, 'profile': profile})
+
+
+
 
 @login_required
 def post_create(request):
@@ -53,6 +57,40 @@ def post_create(request):
         'post_added': post_added,
     }
     return render(request, 'posts/post_form.html', context)
+
+class PostDetail(FormMixin, DetailView):
+    template_name = "posts/post_detail.html"
+    model = Post
+    form_class = CommentModelForm
+    def get_success_url(self):
+        return reverse('posts:single', kwargs={'pk': self.object.id})
+
+    def get_initial(self):
+       return {"post": self.get_object() }
+
+    def get_context_data(self, **kwargs):
+        context = super(PostDetail, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        profile = Profile.objects.get(user=request.user)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = profile
+            instance.post = Post.objects.get(id=self.object.id)
+            instance.save()
+            form = CommentModelForm()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+
+        return super(PostDetail, self).form_valid(form)
+
 
 @login_required
 def comment_create_and_list_view(request):
@@ -104,9 +142,6 @@ def like_unlike_post(request):
 
     return redirect('posts:all_posts')
 
-class PostDetail(DetailView):
-    template_name = "posts/post_detail.html"
-    model = Post
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post

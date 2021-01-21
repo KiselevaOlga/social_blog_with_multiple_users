@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% block content %}
-  <h2>This is about: {{post.author}}</h2>
-  {% include 'posts/_post.html' %}
-{% endblock %}
-<!--  extends 'posts/post_base.html' %}
- block post_content 
-    <div class="container">
-        <div class="col-md-6">
-            
-        </div>
+  {{user}}
+    <h2>This is about: {{post.author}}{{post.content}}</h2>
+    {% for comment in post.comment_set.all %}
+    <div class="comment">
+        <p><a href="#">{{ comment.user }}{{comment.body}}</a></p>
     </div>
- endblock  -->
+    {% endfor %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <h3>Add a comment</h3>
+        <input type="hidden" name="post_id" value="{{obj.id}}"> 
+        {{ form.as_p}}
+        <button type="submit" name="form" class="btn btn-primary">Send</button>
+    </form>
+  
+{% endblock %}

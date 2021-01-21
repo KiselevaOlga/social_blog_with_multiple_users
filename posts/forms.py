@@ -1,5 +1,6 @@
 from django import forms
 from .models import Post, Comment
+from django.forms.widgets import HiddenInput
 
 class PostModelForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea())
