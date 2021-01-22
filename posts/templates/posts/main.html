@@ -7,7 +7,7 @@
                 <a href="{% url 'profiles:profile_detail_view' slug=obj.author.slug %}">
                 <img class="avatar" src="{{obj.author.avatar.url}}"
                 style="width:70px;height:70px;margin-top:4px;" >
-                <b>&nbsp; {{ obj.author.user }}</b></a><small><em> &nbsp; {{ obj.created|timesince}} ago</em></small>&nbsp; 
+                <b>&nbsp;  {{ obj.author.user }}</b></a><small><em> &nbsp; {{ obj.created|timesince}} ago</em></small>&nbsp; 
                 
                 {% ifequal request.user obj.author.user %}
                     <a href="{% url 'posts:post_update' obj.pk %}"><button class="btn btn-primary">Update</button></a>&nbsp; 
