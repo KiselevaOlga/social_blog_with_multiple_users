@@ -31,6 +31,12 @@ class Post(models.Model):
     def num_comments(self):
         return self.comment_set.all().count()
 
+    def get_users_liked(self):
+        users = []
+        for person in self.liked.all():
+            users += [person.user]
+        return users
+
     class Meta:
         ordering = ('-created',)
 

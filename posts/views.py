@@ -86,8 +86,11 @@ class PostDetail(FormMixin, DetailView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
-
         return super(PostDetail, self).form_valid(form)
+
+    def call_func(self, request):
+        return like_unlike_post_detail(request)
+    
 
 
 @login_required
@@ -111,6 +114,33 @@ def comment_create_and_list_view(request):
         'c_form': c_form,
     }
     return render(request, 'posts/main.html', context)
+
+@login_required
+def like_unlike_post_detail(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id_post')
+        post_obj = Post.objects.get(id=post_id)
+        profile = Profile.objects.get(user=user)
+
+        if profile in post_obj.liked.all():
+            post_obj.liked.remove(profile)
+        else:
+            post_obj.liked.add(profile)
+
+        like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
+
+        if not created:
+            if like.value=='Like':
+                like.value='Unlike'
+            else:
+                like.value='Like'
+        else:
+            like.value='Like'
+
+            post_obj.save()
+            like.save()
+    return redirect("posts:single", post_id)
 
 @login_required
 def like_unlike_post(request):
@@ -138,7 +168,6 @@ def like_unlike_post(request):
             post_obj.save()
             like.save()
     return redirect('posts:all_posts')
-
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
