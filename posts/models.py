@@ -53,7 +53,7 @@ LIKE_CHOICES=[
 ]
 
 class Like(models.Model):
-    user = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey('profiles.Profile', on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     value = models.CharField(choices=LIKE_CHOICES, max_length=8)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -22,7 +22,6 @@
                         <div class="card-header" style='width:auto;' data-toggle="collapse" data-target="#comment_box">
                             <h5><i class="fas fa-comment-alt"></i>  {{ post.num_comments }} comment{{post.num_comments|pluralize}}</h5>
                         </div>
-                        {% if post.comment_set.all %}
                         <ul class="collapse list-unstyled" id="comment_box">
                             {% for comment in post.comment_set.all %}
                             <li class="list-item">
@@ -38,7 +37,6 @@
                             </li>
                             {% endfor %}
                         </ul>
-                        {% endif %}
                     
                     </div>
                 </div>
@@ -82,10 +80,10 @@
                     {{post.created|timesince}} ago
             </time>
         {% if user.is_authenticated and request.user == post.author.user %}
-            <a href="{% url 'posts:post-delete' pk=post.pk%}" title="delete">
+            <a href="{% url 'posts:post_delete' pk=post.pk%}" title="delete">
             <button type="button" class="btn btn-danger" aria-hidden="true" style="margin: 5px;" >DELETE
             <i class="fas fa-times"></i></button></a>
-            <a href="{% url 'posts:post-update' pk=post.pk%}"><button style="margin: 5px;"  class="btn btn-primary">UPDATE</button></a>
+            <a href="{% url 'posts:post_update' pk=post.pk%}"><button style="margin: 5px;"  class="btn btn-primary">UPDATE</button></a>
             
         {% endif %}
     </div>

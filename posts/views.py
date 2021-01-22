@@ -87,8 +87,6 @@ class PostDetail(FormMixin, DetailView):
         else:
             return self.form_invalid(form)
 
-    def form_valid(self, form):
-
         return super(PostDetail, self).form_valid(form)
 
 
@@ -118,7 +116,7 @@ def comment_create_and_list_view(request):
 def like_unlike_post(request):
     user = request.user
     if request.method == 'POST':
-        post_id = request.POST.get('post_id')
+        post_id = request.POST.get('post_id_like')
         post_obj = Post.objects.get(id=post_id)
         profile = Profile.objects.get(user=user)
 
@@ -139,7 +137,6 @@ def like_unlike_post(request):
 
             post_obj.save()
             like.save()
-
     return redirect('posts:all_posts')
 
 

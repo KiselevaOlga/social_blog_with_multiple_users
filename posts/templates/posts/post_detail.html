@@ -8,12 +8,12 @@
         <p><a href="#">{{ comment.user }}{{comment.body}}</a></p>
     </div>
     {% endfor %}
+    <p>{{post.liked.all}}</p>
     <form method="post" action="">
         {% csrf_token %}
         <h3>Add a comment</h3>
-        <input type="hidden" name="post_id" value="{{obj.id}}"> 
+        <input type="hidden" name="" value=""> 
         {{ form.as_p}}
         <button type="submit" name="form" class="btn btn-primary">Send</button>
     </form>
-  
 {% endblock %}
