@@ -1,8 +1,0 @@
-<!DOCTYPE html>
-{% extends 'base.html' %}
-{% block content %}
-    <h1>@{{post_user.username}}</h1>
-    {% for post in post_list %}
-        {% include 'posts/_post.html'%}
-    {% endfor %}
-{% endblock %}

@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
-
+{% load bootstrap4 %}
 {% block content %}
     <div class="container">
-        <h3>Update post</h3>
+        <h2>Update post</h2>
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{form}}
+            {% bootstrap_form form %}
             <button type='submit' class="btn btn-primary">Update</button>
         </form>
     </div>
 {% endblock content %}
+
+<!-- <p>Content:
+    {{form.content}}</p>
+    <p>Image:
+        {{form.image}}
+    </p>
+    <p>Group:
+        {{form.group}}
+    </p> -->

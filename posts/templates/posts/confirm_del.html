@@ -12,13 +12,17 @@
     {% endif %}
 
     {% if not messages %}
-        <div class="container">
-            <h3>Delete post?</h3>
+        <div class="alert alert-danger" role="alert" style="text-align: center;">
+            <h3 class="alert-heading">Delete post #{{post.pk}}?</h3>
             <form action="" method="POST">
                 {% csrf_token %}
-                <p>Are you sure you want to delete the post?</p>
-                <button type="submit">Submit</button>
+                <h5><i class="fas fa-exclamation-circle"></i>
+                    Are you sure you want to delete this post? This process cannot be undone!
+                    <i class="fas fa-exclamation-circle"></i></h5>
+                <p> See post #{{post.pk}} <a href="{% url 'posts:single' pk=post.pk %}">{{post.content|slice:50}}</p></a>
+                <input type="submit" class="btn btn-danger btn-lg" value="Confirm delete">
             </form>
+            <a href="{% url 'posts:all_posts' %}"><button class="btn btn-success btn-lg">Cancel</button></a>
         </div>
     {% endif %}
 

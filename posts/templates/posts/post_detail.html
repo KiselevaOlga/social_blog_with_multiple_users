@@ -2,20 +2,32 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class='card border p-3'>
+    
     {% if post.image %}
         <img src="{{post.image.url}}" alt="" style="max-width: 600px;" class="card-img rounded mx-auto d-block">
     {% endif %}
     <div class="card-body">
-        <h3> Post by:  
+        <h4> Posted by:  
         <a href="{% url 'profiles:profile_detail_view' slug=post.author.slug %}">
             {{post.author}}
-        </a></h3>
-        <h5>{{post.content}}</h5>
-        <a href="{% url 'groups:single' slug=post.group.slug %}">
-        <h3>This post also posted in: {{post.group.name}}</h3></a>  
-        <form action="{% url 'posts:liked_post' %}" method="POST" id="{{post.id}}" >
+        </a><small><em> &nbsp; , {{ post.created|timesince}} ago</em></small>&nbsp; </h4> 
+        {% if post.group.name %}
+          <h5>This post belongs to: 
+            <a href="{% url 'groups:single' slug=post.group.slug %}">
+            {{post.group.name}}</a></h5> 
+        {% endif %}
+        
+        <p>{{post.content}}</p>
+        <div style="border-bottom: 1px solid black;">
+        {% if request.user == post.author.user %}
+            <a href="{% url 'posts:post_update' post.pk %}"><button class="btn btn-warning fluid">Update</button></a>&nbsp; 
+            <a href="{% url 'posts:post_delete' post.pk %}"><button class="btn btn-danger fluid">Delete</button></a>
+        {% endif %}
+        </div>  
+        <h6><i class="fas fa-heart"></i> {{post.num_likes}} like{{post.num_likes|pluralize}} </h6>
+        <form action="{% url 'posts:like_post_view' %}" method="POST" id="{{post.id}}" >
             {% csrf_token %}
-            <input type="hidden" name="post_id_post" value="{{post.id}}">
+            <input type="hidden" name="post_id_like" value="{{post.id}}">
             <button type="submit" class="btn btn-primary">
             {% if user not in post.get_users_liked %}
                 Like
@@ -24,49 +36,53 @@
             {% endif %}
             </button>
         </form>
-        <button class='' data-toggle="collapse" data-target="#comments_like">Likes and comments</button>
-            <div class="collapse row" id="comments_like" >
-                <div class="col-sm-2 border p-3">
+        <button class='btn btn-primary' data-toggle="collapse" data-target="#comments_like">Press to close comments and likes</button>
+            <div class="collapse show row" id="comments_like" style="padding: 12px">
+                <div class="col-md-3 border p-3">
                     <div class="card-header" data-toggle="collapse" data-target="#like">
                         <h6><i class="fas fa-heart"></i> {{post.num_likes}} like{{post.num_likes|pluralize}} </h6>
                     </div>
                     <div>
-                        <ul class="list-unstyled" class="collapse" id="like">
+                        <ul class="list-inline collapse show " id="like">
                             {% for person in post.liked.all %}
-                                <li class="list-item"><img class="align-self-center avatar" 
-                                    style="width:40px;height:40px; margin-right: 30px;" 
-                                    src="{{person.avatar.url}}"><br>{{person}}</li>
+                                <li class="list-inline-item">
+                                    <a href="{% url 'profiles:profile_detail_view' slug=person.slug%}"><img class="align-self-center avatar" 
+                                    style="width:40px;height:40px; margin-top: 15px;" 
+                                    src="{{person.avatar.url}}"></a><br>{{person}}
+                                </li>
                             {% endfor %}
                         </ul>
                     </div> 
                 </div>
-                <div class="col-sm-10 border p-3" data-toggle="collapse" data-target="#comments">
-                    <div class="card-header" style='width:auto;'>
+                <div class="col-md-9 border p-3">
+                    <div class="card-header" style='width:auto;' data-toggle="collapse" data-target="#comments">
                         <h5><i class="fas fa-comment-alt"></i>  {{ post.num_comments }} comment{{post.num_comments|pluralize}}</h5>
                     </div>
-                    <ul class="list-unstyled" class="collapse" id="comments" >
-                        {% for comment in post.comment_set.all %}
-                        <li class="list-item">
-                            <div class="media p-3">
-                                <img class="align-self-center avatar" 
-                                style="width:40px;height:40px; margin-right: 30px;" 
-                                src="{{comment.user.avatar.url}}"><br>
-                                <div class="media-body">
-                                    <h5>{{ comment.user }}<small><i> &nbsp; {{comment.created_at|date:"M d, Y"}}</i></small></h5>
-                                    <p>{{ comment.body }}</p>
+                    <div>
+                        <ul class="collapse show list-unstyled" id="comments" >
+                            {% for comment in post.comment_set.all %}
+                            <li class="list-item">
+                                <div class="media p-3">
+                                    <a href="{% url 'profiles:profile_detail_view' slug=comment.user.slug%}"><img class="align-self-center avatar" 
+                                    style="width:40px;height:40px; margin-right: 30px;" 
+                                    src="{{comment.user.avatar.url}}"></a><br>
+                                    <div class="media-body">
+                                        <h5>{{ comment.user }}<small><i> &nbsp; {{comment.created_at|date:"M d, Y"}}</i></small></h5>
+                                        <p>{{ comment.body }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                        {% endfor %}
-                        <li class="float-end">
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="post_id" value="{{post.id}}"> 
-                                {{ form }}
-                                <button type="submit" name="submit_c_form" class="btn btn-primary">Send</button>
-                            </form>
-                        </li>
-                    </ul>
+                            </li>
+                            {% endfor %}
+                            <li class="float-end">
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="post_id" value="{{post.id}}"> 
+                                    {{ form }}
+                                    <button type="submit" name="submit_comment_form" class="btn btn-primary">Send</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
     </div>

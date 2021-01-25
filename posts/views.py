@@ -11,6 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import FormMixin
 from braces.views import SelectRelatedMixin
 from itertools import chain
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 @login_required
@@ -18,6 +19,7 @@ def friends_posts(request):
     profile = Profile.objects.get(user=request.user)
     # check who we are following
     users = [user for user in profile.friends.all()]
+    comment_form = CommentModelForm
     # initital values for vars 
     posts = []
     qs = None
@@ -25,35 +27,46 @@ def friends_posts(request):
         prof = Profile.objects.get(user=one_user)
         prof_posts= prof.posts.all().filter()
         posts.append(prof_posts)
-    my_posts = profile.get_all_authors_posts()
-    posts.append(my_posts)
     if len(posts) >0:
         qs = sorted(chain(*posts), reverse=True, key=lambda obj: obj.created)
-    return render(request, 'posts/friends_posts.html', {'posts': qs, 'profile': profile})
+        
+    if 'submit_comment_form' in request.POST:
+        comment_form = CommentModelForm(request.POST)
+        if comment_form.is_valid():
+            instance = comment_form.save(commit=False)
+            instance.user = profile
+            instance.post = Post.objects.get(id=request.POST.get('post_id'))
+            instance.save()
+            comment_form = CommentModelForm()
 
-
+    context = {
+        'posts': qs,
+        'users': users,
+        'comment_form': comment_form,
+    }
+    return render(request, 'posts/friends_posts.html', context)
 
 
 @login_required
 def post_create(request):
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
-    p_form = PostModelForm()
+    post_form = PostModelForm()
     post_added = False
 
-    if 'submit_p_form' in request.POST:
-        p_form = PostModelForm(request.POST, request.FILES)
-        if p_form.is_valid():
-            instance = p_form.save(commit=False)
+    if 'submit_post_form' in request.POST:
+        post_form = PostModelForm(request.POST, request.FILES)
+        if post_form.is_valid():
+            instance = post_form.save(commit=False)
             instance.author = profile
             instance.save()
-            p_form = PostModelForm()
+            post_form = PostModelForm()
             post_added = True
 
     context = {
         'qs': qs,
         'profile': profile,
-        'p_form': p_form,
+        'post_form': post_form,
         'post_added': post_added,
     }
     return render(request, 'posts/post_form.html', context)
@@ -66,7 +79,7 @@ class PostDetail(FormMixin, DetailView):
         return reverse('posts:single', kwargs={'pk': self.object.id})
 
     def get_initial(self):
-       return {"post": self.get_object() }
+       return {"post": self.get_object()}
 
     def get_context_data(self, **kwargs):
         context = super(PostDetail, self).get_context_data(**kwargs)
@@ -88,59 +101,29 @@ class PostDetail(FormMixin, DetailView):
             return self.form_invalid(form)
         return super(PostDetail, self).form_valid(form)
 
-    def call_func(self, request):
-        return like_unlike_post_detail(request)
-    
-
 
 @login_required
 def comment_create_and_list_view(request):
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
-    c_form = CommentModelForm()
+    comment_form = CommentModelForm()
 
-    if 'submit_c_form' in request.POST:
-        c_form = CommentModelForm(request.POST)
-        if c_form.is_valid():
-            instance = c_form.save(commit=False)
+    if 'submit_comment_form' in request.POST:
+        comment_form = CommentModelForm(request.POST)
+        if comment_form.is_valid():
+            instance = comment_form.save(commit=False)
             instance.user = profile
             instance.post = Post.objects.get(id=request.POST.get('post_id'))
             instance.save()
-            c_form = CommentModelForm()
+            comment_form = CommentModelForm()
 
     context = {
         'qs': qs,
         'profile': profile,
-        'c_form': c_form,
+        'comment_form': comment_form,
     }
     return render(request, 'posts/main.html', context)
 
-@login_required
-def like_unlike_post_detail(request):
-    user = request.user
-    if request.method == 'POST':
-        post_id = request.POST.get('post_id_post')
-        post_obj = Post.objects.get(id=post_id)
-        profile = Profile.objects.get(user=user)
-
-        if profile in post_obj.liked.all():
-            post_obj.liked.remove(profile)
-        else:
-            post_obj.liked.add(profile)
-
-        like, created = Like.objects.get_or_create(user=profile, post_id=post_id)
-
-        if not created:
-            if like.value=='Like':
-                like.value='Unlike'
-            else:
-                like.value='Like'
-        else:
-            like.value='Like'
-
-            post_obj.save()
-            like.save()
-    return redirect("posts:single", post_id)
 
 @login_required
 def like_unlike_post(request):
@@ -167,7 +150,7 @@ def like_unlike_post(request):
 
             post_obj.save()
             like.save()
-    return redirect('posts:all_posts')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post

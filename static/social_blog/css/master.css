@@ -1,38 +1,5 @@
 /*this file is editable */
 
-/*#parent{
-    height:auto;
-    display: block;
-    line-height: 2;
-}
-
-#myblock{
-    background:white;
-    width: 85%;
-    padding: 20px;
-    text-align: auto;
-    height: 100%;
-    overflow: auto;
-}
-#myblock::-webkit-scrollbar {
-  display: none;
-}
-
-#sidebar {
-    float: left;
-    width: 15%;
-    height: 100%;
-    z-index: 1;
-    background: grey;
-    color: black;
-    padding: 20px;
-    text-align: left;
-    font-size: 1.5vw;
-}
-
-/*for home page*/
-
-
 .avatar{
     width: 100px;
     height: 100px;
@@ -52,4 +19,8 @@
     width: 200px;
     margin: 20px;
     display: inline;
+}
+
+p{
+    text-indent: 30px;
 }
