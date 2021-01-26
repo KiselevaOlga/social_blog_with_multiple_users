@@ -1,38 +1,103 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% block content %}
-    <img class="img-thumbnail" src="{{object.avatar.url}}" style="width:10%">
-    <h1>{{object.user}}</h1>
-    <h2>Posts: {{object.get_posts_no}}</h2>
-    <h2>Likes given: {{object.get_likes_given_no}}</h2>
-    <h2>Likes received: {{object.get_likes_received}}</h2>
-    <h2>Friends: {{object.get_friends_no}}</h2>
-
-    {% if object.user not in rel_receiver and object.user not in rel_sender %}
+<div class='row'>
+  <div class='col-md-4'>
+      <img src="{{profile.avatar.url}}" class="img-fluid">
+      <h6>Last update: {{profile.updated|date:"M d, Y"}}</h6>
+      {% if object.user not in rel_receiver and object.user not in rel_sender %}
         <form method="POST" action="{% url 'profiles:send_invite'%}">
           {% csrf_token %}
           <input type="hidden" name='profile_pk' value='{{object.pk}}'>
           <button type="submit" class="btn btn-primary">Add to friends</button>
         </form>
-    {% endif %}
+      {% endif %}
       
-    {% if object.user in rel_receiver and request.user not in object.friends.all%}  
+      {% if object.user in rel_receiver and request.user not in object.friends.all%}  
         <button class="btn btn-primary disabled">Waiting for confirmation</button>
-    {% endif %}
+      {% endif %}
       
-    {% if request.user in object.friends.all %}  
+      {% if request.user in object.friends.all %}  
         <form method='POST' action="{% url 'profiles:remove_friend'%}">
           {% csrf_token %}
           <input type="hidden" name='profile_pk' value='{{object.pk}}'>
           <button type="submit" class="btn btn-danger">Remove from friends</button>
         </form>
-    {% endif %}
-    {% if len_posts %}
-        {% for post in posts %}
-          {{post.content}}
-        {% endfor %}
-    {%else %}
-        <h3>No posts yet from this user</h3>
-    {% endif %}
+      {% endif %}
+      <div class='card'>
+        <div class='card-header'>
+          <h5>Friends: {{profile.get_friends_no}}</h5>
+        </div>
+        <div class="card-body">
+          {% if profile.get_friends.count == 0 %}
+            <h6>No friends so far...</h6>
+          {% endif %}
+          <ul class='list-inline'>
+            {% for friend in profile.get_friends|slice:9 %}
+            <li class="list-inline-item">
+              &nbsp;&nbsp;<a href="{% url 'profiles:profile_detail_view' slug=friend.profile.slug%}"><img class="align-self-center avatar" 
+              style="width:40px;height:40px; margin-top: 15px;" 
+              src="{{friend.profile.avatar.url}}"></a><br>{{friend.profile}}
+            </li>
+            {% endfor %} 
+            <a href="{% url 'profiles:all_profiles_list'%}">See more...</a>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <h5 class="card-header">Groups: </h5>
+        <div class="card-body">
+            {% for item in group %}
+                {% if profile in item.members.all %}
+                    <a href="{% url 'groups:single' slug=item.slug %}"><h6>{{item.name}}</h6></a>
+                {% endif %}
+            {% endfor %}
+          <a href="{% url 'groups:all' %}"><h6>See more groups...</h6></a>
+        </div>
+      </div>
+  </div>
+  <div class='col-md-8'>
+    <div class="card" style='border: none'>
+      <div class="card-body" >
+        <h2 class='card-title' style='border-bottom: 1px solid black'>
+          User: {{profile.user}}
+          {% if profile.first_name %}
+             , {{profile.first_name}}
+          {% endif %}
+          {% if profile.last_name %}
+            {{profile.last_name}}
+          {% endif %}
+        </h2>
+      
+        <div class='card-text'>
+            <table class="table table-borderless">
+              {% if profile.country%}
+              <tr>
+                <td>Country:  </td>
+                <td> {{profile.country}} </td>
+              </tr>
+              {% endif %} 
+              {% if profile.email %}
+              <tr>
+                <td>Email: </td>
+                <td> {{profile.email}} </td>
+              </tr>
+              {% endif %}
+              <tr>
+                <td>Bio: </td>
+                <td> {{profile.bio }} </td>
+              </tr>
+            </table>
+        </div>
+      </div>
+    </div>   
+      
+      <h4>{{profile.user}}'s posts: {{profile.get_posts_no}}</h4>
+      {% for post in profile.get_all_authors_posts%}
+        {% include "posts/_post.html" %}
+      {% endfor %}    
+      
+  </div>
+</div>
         
 {% endblock content %}

@@ -60,7 +60,7 @@ class Profile(models.Model):
 
     def get_friends(self):
         return self.friends.all()
-
+        
     def get_friends_no(self):
         return self.friends.all().count()
         

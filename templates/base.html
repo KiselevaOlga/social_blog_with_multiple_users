@@ -65,10 +65,29 @@
             </div>
         </nav> 
           <!-- /bootstrap nav -->
-        <div class="container">
-            {% block content%}
-            {% endblock%}
-        </div>
+          <div class="row py-3">
+            <div class="col-sm-2" >
+                <div class="menu sticky-top p-3 bg-light" id="demo">
+                    <h5 class="text-primary">Sidebar</h5>
+                    <div class="nav flex-column">
+                        {% if user.is_authenticated %}
+                            <a href="" class="nav-link pl-0">Home</a>
+                            <a href="{% url 'posts:friends_posts'%}" class="nav-link pl-0">News</a>
+                            <a href="{% url 'groups:all'%}" class="nav-link pl-0">Groups</a>
+                            <a href="{% url 'profiles:all_profiles_list'%}" class="nav-link pl-0">Profiles</a>
+                        {% else %}
+                            <a href="#" class="nav-link pl-0">My invites</a>
+                            <a href="{% url 'groups:all'%}" class="nav-link pl-0">Groups</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-sm-10 content">
+                {% block content%}
+                {% endblock%}
+            </div>
+        </div>  
       <div class="footer">
           <div class="row">
               <div class="col-sm-12">

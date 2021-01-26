@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <!--# _POST FILE IN POSTS APP-->
 <div class='card mb-3'>
-    <h4 class='card-header' style="padding: 5px;">
-    <a href="{% url 'profiles:profile_detail_view' slug=post.author.slug %}">
-    <img src="{{post.author.avatar.url}}" 
-        style="width:30px;height:30px; margin-bottom: 15px;margin-left: 15px;" 
-        class="mr-3 mt-3 rounded-circle avatar"> 
-        {{post.author}}</a></h4>
+    <div class='card-header' style="padding: 3px;">
+        <a href="{% url 'profiles:profile_detail_view' slug=post.author.slug %}">
+        <img src="{{post.author.avatar.url}}" 
+            style="width:70px;height:70px;margin-top:4px;"
+            class="avatar"> 
+            {{post.author}}</a><time class="time">   {{post.created|timesince}} ago</time>
+        <a href="{% url 'posts:single' pk=post.pk %}"><button class="btn btn-primary float-end" style="width: 150px;margin-right:15px;">DETAILS</button></a>
+    </div>
     {% if post.image %}    
         <div class="row g-0">
-            <div class="col-md-4">
-                <img src="{{post.image.url}}" class="img-fluid">
+            <div class="col-md-4 d-flex align-items-baseline">
+                <img src="{{post.image.url}}" class="img-thumbnail">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -74,17 +76,14 @@
             </div>
         </div>   
     {% endif %}
-    <div class="card-footer">
-        <a href="{% url 'posts:single' pk=post.pk %}"><button style="margin: 5px;" class="btn btn-primary">DETAILS</button></a>
-            <time class="time">
-                    {{post.created|timesince}} ago
-            </time>
+    
         {% if user.is_authenticated and request.user == post.author.user %}
+        <div class="card-footer">
             <a href="{% url 'posts:post_delete' pk=post.pk%}" title="delete">
             <button type="button" class="btn btn-danger" aria-hidden="true" style="margin: 5px;" >DELETE
             <i class="fas fa-times"></i></button></a>
             <a href="{% url 'posts:post_update' pk=post.pk%}"><button style="margin: 5px;"  class="btn btn-primary">UPDATE</button></a>
-            
+        </div>    
         {% endif %}
-    </div>
+    
 </div>

@@ -8,7 +8,31 @@
 
   {% for obj in qs %}
     <!-- use div card -->
-    <img style="width: 10%" class="mr-3 mt-3 rounded-circle" src="{{ obj.avatar.url }}"><br>
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4 d-flex align-items-center">
+          <a href="{{obj.get_absolute_url}}" ><img class="img-thumbnail" src="{{obj.avatar.url}}"></a>
+        </div>
+        <div class="col-md-8 d-flex align-items-center">
+          <div class="card-body">
+            <a href="{{obj.get_absolute_url}}"><h5 style="border-bottom: 1px solid black" class="card-title">{{obj.user}}</h5></a>
+            <h6 class="card-text">Bio: {{obj.bio|slice:100}}...</h6>
+            <form method="post" action="{% url 'profiles:accept_invite' %}">
+              {% csrf_token %}
+              <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
+              <button class="btn btn-success" type="submit">Accept invite</button>
+            </form>
+            
+            <form method="post" action="{% url 'profiles:reject_invite' %}">
+              {% csrf_token %}
+              <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
+              <button class="btn btn-danger" type="submit">Reject invite</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <img style="width: 10%" class="mr-3 mt-3 rounded-circle" src="{{ obj.avatar.url }}"><br>
     <h3>{{obj.user}}</h3>
     <h3>{{obj.bio}}</h3>
     <button href="">See profile</button><br>
@@ -23,6 +47,6 @@
       {% csrf_token %}
       <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
       <button class="btn btn-danger" type="submit">Reject invite</button>
-    </form>
+    </form> -->
   {% endfor %}
 {% endblock content %}

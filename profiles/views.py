@@ -12,16 +12,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class ProfileDetailView(generic.DetailView, LoginRequiredMixin):
     model = Profile
     template_name = 'profiles/detail.html'
-    # try without that func and see the difference , i overridden default logic of get object
+
     def get_object(self,slug=None):
         slug = self.kwargs.get('slug')
         profile = Profile.objects.get(slug=slug)
         return profile
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(username__iexact=self.request.user.username)
         profile = Profile.objects.get(user=user)
+        group = Group.objects.all()
         rel_r = Relationship.objects.filter(sender=profile)
         rel_s = Relationship.objects.filter(receiver=profile)
         rel_receiver = []
@@ -34,6 +35,7 @@ class ProfileDetailView(generic.DetailView, LoginRequiredMixin):
         context['rel_sender'] = rel_sender
         context['posts'] = self.get_object().get_all_authors_posts()   
         context['len_posts'] = True if len(self.get_object().get_all_authors_posts()) > 0 else False
+        context['group'] = group
         return context
 
 
@@ -74,11 +76,12 @@ def my_profile(request):
     profile = Profile.objects.get(user=request.user)
     form = ProfileModelForm(request.POST or None, request.FILES or None, instance=profile)
     confirm = False
+    group = Group.objects.all()
     if request.method == 'POST':
         if form.is_valid():
             form.save()
             confirm = True
-    context = {'profile': profile, 'form': form, 'confirm': confirm,}
+    context = {'profile': profile, 'form': form, 'confirm': confirm, 'group': group}
     return render(request, 'profiles/myprofile.html', context)
 
 

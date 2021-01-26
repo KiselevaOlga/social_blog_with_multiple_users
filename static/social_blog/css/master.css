@@ -24,3 +24,10 @@
 p{
     text-indent: 30px;
 }
+
+.img-thumbnail{
+    border: none;
+}
+tr {
+    border-bottom: 1px solid black;
+}
