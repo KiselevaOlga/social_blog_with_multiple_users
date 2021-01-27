@@ -68,7 +68,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                #'django.template.context_processors.media',
                 'profiles.context_processors.profile_pic',
                 'profiles.context_processors.invitations_no_rec',
             ],
@@ -136,5 +135,5 @@ STATICFILES_DIRS = [Path.joinpath(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 # change these files
-LOGIN_REDIRECT_URL = 'test'
+LOGIN_REDIRECT_URL = 'profiles:my_profile_view'
 LOGOUT_REDIRECT_URL = 'thanks'

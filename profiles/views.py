@@ -7,14 +7,14 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
+from django.http import HttpResponse
 
 
 class ProfileDetailView(generic.DetailView, LoginRequiredMixin):
     model = Profile
     template_name = 'profiles/detail.html'
-
+    
     def get_object(self,slug=None):
         slug = self.kwargs.get('slug')
         profile = Profile.objects.get(slug=slug)
