@@ -29,7 +29,6 @@ class ProfileManager(models.Manager):
 
         available = [profile for profile in profiles if profile not in accepted]
         return available
-        
 
     def get_all_profiles(self, me):
         profiles = Profile.objects.all().exclude(user=me)

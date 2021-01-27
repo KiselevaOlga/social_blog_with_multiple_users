@@ -25,7 +25,7 @@
         </form>
       {% endif %}
       <div class='card'>
-        <div class='card-header'>
+        <div class='card-header detail_friends' data-toggle="modal" data-target="#detailFriends">
           <h5>Friends: {{profile.get_friends_no}}</h5>
         </div>
         <div class="card-body">
@@ -42,6 +42,27 @@
             {% endfor %} 
             <a href="{% url 'profiles:all_profiles_list'%}">See more...</a>
           </ul>
+        </div>
+      </div>
+      <div class="modal" id="detailFriends">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Friends: {{profile.get_friends_no}}</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <ul class='list-inline'>
+                {% for friend in profile.get_friends %}
+                <li class="list-inline-item">
+                  &nbsp;&nbsp;<a href="{% url 'profiles:profile_detail_view' slug=friend.profile.slug%}"><img class="align-self-center avatar" 
+                  style="width:40px;height:40px; margin-top: 15px;" 
+                  src="{{friend.profile.avatar.url}}"></a><br>{{friend.profile}}
+                </li>
+                {% endfor %} 
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card">

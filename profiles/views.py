@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 
 
 class ProfileDetailView(generic.DetailView, LoginRequiredMixin):
@@ -17,7 +19,7 @@ class ProfileDetailView(generic.DetailView, LoginRequiredMixin):
         slug = self.kwargs.get('slug')
         profile = Profile.objects.get(slug=slug)
         return profile
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(username__iexact=self.request.user.username)
@@ -110,7 +112,7 @@ def accept_invitation(request):
         if rel.status == 'send':
             rel.status = 'accepted'
             rel.save()
-    return redirect('profiles:my_invites_view')
+    return redirect(request.META.get("HTTP_REFERER"))
 
 @login_required
 def reject_invitation(request):
@@ -120,14 +122,26 @@ def reject_invitation(request):
         receiver = Profile.objects.get(user=request.user)
         rel = get_object_or_404(Relationship, sender=sender, receiver=receiver)
         rel.delete()
-    return redirect('profiles:my_invites_view')
-    
+    return redirect(request.META.get("HTTP_REFERER"))
+
+@login_required    
 def invite_profiles_list_view(request):
     user = request.user
+    profile = Profile.objects.get(user=user)
     qs = Profile.objects.get_all_profiles_to_invite(user)
-
-    context = {'qs': qs}
-
+    rel_r = Relationship.objects.filter(sender=profile)
+    rel_s = Relationship.objects.filter(receiver=profile)
+    rel_receiver = []
+    rel_sender = []
+    for item in rel_r:
+        rel_receiver.append(item.receiver.user)
+    for item in rel_s:
+        rel_sender.append(item.sender.user)
+    context = {
+        'rel_receiver': rel_receiver,
+        'rel_sender': rel_sender,
+        'qs': qs,
+    }
     return render(request, 'profiles/to_invite_list.html', context)
 
 @login_required

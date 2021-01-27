@@ -31,3 +31,7 @@ p{
 tr {
     border-bottom: 1px solid black;
 }
+
+.myprofile_friends, .detail_friends{
+    cursor: pointer;
+}
