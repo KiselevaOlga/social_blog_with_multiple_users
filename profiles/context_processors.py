@@ -13,3 +13,4 @@ def invitations_no_rec(request):
         qs_count = Relationship.objects.invitations_received(profile_obj).count()
         return {'invitations_no': qs_count}
     return {}
+

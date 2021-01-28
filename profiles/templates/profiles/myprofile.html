@@ -87,7 +87,7 @@
       <div class='col-md-8'>
         <div class="card" style='border: none'>
           <div class="card-body" >
-            <h2 class='card-title' style='border-bottom: 1px solid black'>
+            <h2 class='card-title'>
               User: {{profile.user}}
               {% if profile.first_name %}
                  , {{profile.first_name}}
@@ -121,6 +121,7 @@
         </div>   
           
           <h4>Your posts: {{profile.get_posts_no}}</h4>
+          <a href="{% url 'posts:post_create' %}"><button class='btn btn-primary'>Create new post</button></a>
           {% for post in profile.get_all_authors_posts%}
             {% include "posts/_post.html" %}
           {% endfor %}    

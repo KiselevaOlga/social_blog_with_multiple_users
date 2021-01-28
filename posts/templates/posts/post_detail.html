@@ -18,7 +18,7 @@
         {% endif %}
         
         <p>{{post.content}}</p>
-        <div style="border-bottom: 1px solid black;">
+        <div class="post_content">
         {% if request.user == post.author.user %}
             <a href="{% url 'posts:post_update' post.pk %}"><button class="btn btn-warning fluid">Update</button></a>&nbsp; 
             <a href="{% url 'posts:post_delete' post.pk %}"><button class="btn btn-danger fluid">Delete</button></a>
@@ -38,7 +38,7 @@
         </form>
         <button class='btn btn-primary' data-toggle="collapse" data-target="#comments_like">Press to close comments and likes</button>
             <div class="collapse show row" id="comments_like" style="padding: 12px">
-                <div class="col-md-3 border p-3">
+                <div class="col-md-3 p-3 comment_like">
                     <div class="card-header" data-toggle="collapse" data-target="#like">
                         <h6><i class="fas fa-heart"></i> {{post.num_likes}} like{{post.num_likes|pluralize}} </h6>
                     </div>
@@ -54,7 +54,7 @@
                         </ul>
                     </div> 
                 </div>
-                <div class="col-md-9 border p-3">
+                <div class="col-md-9 p-3 comment_like">
                     <div class="card-header" style='width:auto;' data-toggle="collapse" data-target="#comments">
                         <h5><i class="fas fa-comment-alt"></i>  {{ post.num_comments }} comment{{post.num_comments|pluralize}}</h5>
                     </div>

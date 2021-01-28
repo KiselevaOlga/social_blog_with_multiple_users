@@ -33,7 +33,6 @@ class ProfileManager(models.Manager):
     def get_all_profiles(self, me):
         profiles = Profile.objects.all().exclude(user=me)
         return profiles
-
             
 
 class Profile(models.Model):

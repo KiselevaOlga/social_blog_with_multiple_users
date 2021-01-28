@@ -1,17 +1,58 @@
-/*this file is editable */
+/*this file is editable
+colors:
+#77A6F7 - Blue
+#D3E3FC - LIGHT BLUE
+white
+#FFCCBC - PINK
+#00887A - GREEN
+*/
 
+.main-container{
+    background: white;
+}
+.navbar, .side{
+    background:#D3E3FC; 
+}
+
+.card-header, .card-footer{
+    background:  #FFCCBC;
+    color: rgb(20, 20, 20);
+}
+.comment_like{
+    border: 1px solid#FFCCBC;
+}
+a{
+    color: rgb(59, 60, 63);
+}
+a:hover{
+    color:#FFCCBC;
+}
+.btn:hover{
+    background:#00887A ;
+}
 .avatar{
     width: 100px;
     height: 100px;
     object-fit:cover;
     border-radius: 50%;
 }
-
-.btn, .card{
-    margin-top: 20px;
-    margin-bottom: 20px;
+.card-title{
+    border-bottom: 1px solid #FFCCBC;
 }
-
+.card{
+    margin-bottom: 20px;
+    background-color: white;
+    border: 1px solid#FFCCBC;
+}
+.btn-primary{
+    background:#77A6F7;
+    color: black;
+    border-color: #00887A ;
+}
+.btn{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 #home-header{
     color: black;
 }
@@ -24,14 +65,19 @@
 p{
     text-indent: 30px;
 }
-
+.navbar-brand{
+    color: #00887A !important;
+}
 .img-thumbnail{
     border: none;
+    background: white;
 }
 tr {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #FFCCBC;
 }
-
+.post_content{
+    border-bottom: 1px solid #FFCCBC;
+}
 .myprofile_friends, .detail_friends{
     cursor: pointer;
 }
