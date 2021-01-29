@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% block title %}Yor friends posts page{% endblock %}
 {% block content %}
-<h3>Your friends posts:</h3>
+<h3 class="line_content">Your friends posts:</h3>
 {% for post in posts %}
     <div class="card mb-3">
         <div class="card-header" style="padding: 3px;">

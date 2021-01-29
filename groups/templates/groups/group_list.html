@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% block title %}List of all groups page{% endblock %}
 {% block content %}
     {% if user.is_authenticated %}
         <h2 class="header">Welcome back {{user.username}}!</h2>
     {% endif %}
     {% if user.is_authenticated %}
-        <a href="{% url 'groups:create'%}" class="btn btn-lg btn-fill btn-primary">
-            <i class="fas fa-users">Create new group</i></a><br>
-        <!-- написать функцию, которая бы показывала в какиx группах -->
+        <a href="{% url 'groups:create'%}"><button style="font-size:20px;" class="btn btn-primary long_button">
+            <i class="fas fa-users">Create new group</i></button></a><br>
     {% endif %}
     {% for group in object_list %}
-        <div class='row-cols-lg-2'>
+        <div class='row-cols-lg'>
             <div class="card">
                 <div class="card-body">
                     <a href="{% url 'groups:single' slug=group.slug%}" class="text-decoration-none">
-                    <h3 class='card-header'>{{group.name}}</h3></a>
+                    <h4 class='card-header'>{{group.name}}</h4></a>
                     <p class=''>{{group.description_html|safe}}</p>
                     <div class='card-footer'>
                         <h5 class='card-link'> {{group.members.count}} member{{group.members.count|pluralize}} &nbsp;

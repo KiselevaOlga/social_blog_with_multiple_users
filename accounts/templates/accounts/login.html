@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% block title %}Log In page{% endblock %}
 {% block content%}
     <div class="container">
         <h1 class="line_content">Log In!</h1>
-        <h6>If you don't want to leave your personal data, you can use next user profile testing for testing: <br>
+        <h6>If you don't want to leave your personal data, you can use user profile provided down below for testing: <br>
         User: testuser<br>
-        Password: testtouse
+        Password: 765usetotest098
         </h6>
         <form method="post">
             {% csrf_token %}

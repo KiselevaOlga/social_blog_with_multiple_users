@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 {% extends 'base.html'%}
+{% block title %}Log out thank you page{% endblock %}
 {% block content %}
-    <h1>Thanks for visiting, come back soon!</h1>
+    <h1 class="line_content" style="text-align: center;">Thanks for visiting, come back soon!</h1>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'accounts:login'%}"><button class='btn btn-primary m-3'>Log In</button></a>
+        <a href="{% url 'accounts:signup'%}"><button class='btn btn-primary m-3'>Sign Up</button></a>
+    </div>
 {% endblock %}

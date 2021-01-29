@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% block title %}Confirm delete post page{% endblock %}
 {% block content %}
     {% if messages %}
         {% for message in messages %}
@@ -20,9 +21,9 @@
                     Are you sure you want to delete this post? This process cannot be undone!
                     <i class="fas fa-exclamation-circle"></i></h5>
                 <p> See post #{{post.pk}} <a href="{% url 'posts:single' pk=post.pk %}">{{post.content|slice:50}}</p></a>
-                <input type="submit" class="btn btn-danger btn-lg" value="Confirm delete">
+                <input type="submit" class="btn btn-danger" value="Confirm delete">
             </form>
-            <a href="{% url 'posts:all_posts' %}"><button class="btn btn-success btn-lg">Cancel</button></a>
+            <a href="{% url 'posts:all_posts' %}"><button class="btn btn-success">Cancel</button></a>
         </div>
     {% endif %}
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% block title %}List of all profiles{% endblock %}
 {% block content %}
 <div class='container'>
   {% if is_empty %}
@@ -25,7 +26,7 @@
             {% endif %}
               
             {% if obj.user in rel_receiver and request.user not in obj.friends.all%}  
-                <button class="btn btn-primary disabled">Waiting for confirmation</button>
+                <button class="btn btn-primary disabled long_button">Waiting for confirmation</button>
             {% endif %}
               
             {% if request.user in obj.friends.all %}  

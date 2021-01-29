@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% block title %}Detailed: {{post.content|slice:20}}{% endblock %}
 {% block content %}
 <div class='card p-3'>
     
@@ -28,7 +29,7 @@
         <form action="{% url 'posts:like_post_view' %}" method="POST" id="{{post.id}}" >
             {% csrf_token %}
             <input type="hidden" name="post_id_like" value="{{post.id}}">
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary" >
             {% if user not in post.get_users_liked %}
                 Like
             {% else %}
@@ -36,7 +37,7 @@
             {% endif %}
             </button>
         </form>
-        <button class='btn btn-primary' data-toggle="collapse" data-target="#comments_like">Press to close comments and likes</button>
+        <button class='btn btn-primary long_button' data-toggle="collapse" data-target="#comments_like">Press to close comments and likes</button>
             <div class="collapse show row" id="comments_like" style="padding: 12px">
                 <div class="col-md-3 p-3 comment_like">
                     <div class="card-header detail_post" data-toggle="collapse" data-target="#like">

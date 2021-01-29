@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% block title %}List of all posts page{% endblock %}
 {% block content %}
     {% for obj in qs %}
         <div class="card mb-3">
@@ -86,11 +87,11 @@
                             {% endif %}
                             </button>
                         </form>
-                        <div class="card-header detail_post" style='width:auto;' data-toggle="collapse" data-target="#comment_box">
+                        <div class="card-header detail_post" style='width:auto;' data-toggle="collapse" data-target="#comment_box_2">
                             <h6><i class="fas fa-comment-alt"></i>  {{ obj.num_comments }} comment{{obj.num_comments|pluralize}}</h6>
                         </div>
                         {% if obj.comment_set.all %}
-                        <ul class="collapse list-unstyled" id="comment_box">
+                        <ul class="collapse list-unstyled" id="comment_box_2">
                             {% for comment in obj.comment_set.all %}
                             <li class="list-item">
                                 <div class="media p-3">

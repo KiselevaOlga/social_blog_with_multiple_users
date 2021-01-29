@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 {% extends 'base.html'%}
+{% block title %}Detailed {{group.name}} page{% endblock %}
 {% block content %}
-    <h1 class="line_content">{{group.name}}</h1>
-    <h4>{{group.description_html|safe}}</h4>
+    <h3 class="line_content">{{group.name}}</h3>
+    <p>{{group.description_html|safe}}</p>
 
-    <button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#list_profiles_in_group">
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#list_profiles_in_group">
         Members: {{group.members.count}}
     </button>
     <ul id="list_profiles_in_group" class="collapse list-inline">
@@ -18,13 +19,14 @@
     
     <div id='member_join_leave'>
         {% if user in group.get_users %}
-            <a href="{% url 'groups:leave' slug=group.slug%}" class="btn btn-lg btn-warning" >
+            <a href="{% url 'groups:leave' slug=group.slug%}" class="btn btn-warning" >
             Leave   <i class="fas fa-user-minus"></i></a>
         {% else %}
-            <a href="{% url 'groups:join' slug=group.slug%}" class="btn btn-lg btn-primary"  >
+            <a href="{% url 'groups:join' slug=group.slug%}" class="btn btn-primary"  >
             Join    <i class="fas fa-user-plus"></i></a>
         {%endif%}
     </div>
+    <a href="{% url 'posts:post_create'%}"><button class="btn btn-primary">Create new post</button></a>
     {% if group.posts.count == 0 %}
         <div class='card'>
             <div class="card-body">

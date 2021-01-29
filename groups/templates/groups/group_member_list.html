@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html'%}
+{% block title %}Members of {{group.name}} page{% endblock %}
 {% block content %}
     <h1><a href="{% url 'groups:single' slug=group.slug %}">{{group.name}}</a></h1><hr>
     <h2>Members: {{group.members.count}}</h2>

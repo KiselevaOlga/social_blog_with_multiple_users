@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% block content %}
+{% block title %}Create new group page {% endblock %}
 {% load bootstrap4 %}
     <h2 style="margin-top:10px;">Create new group</h2><hr style="width:25%;">
     <form method="post" action="{% url 'groups:create'%}" id="groupForm">
