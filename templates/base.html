@@ -15,23 +15,24 @@
     <link rel="stylesheet" href="{% static 'social_blog/css/master.css'%}">
 <!--    font awesome icons -->
     <script src="https://kit.fontawesome.com/72170c554d.js" crossorigin="anonymous"></script>
-<!--    GOOGLE FONTS font-family: 'Xanh Mono', monospace;-->
+<!--    GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alike+Angular&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container main-container">
     <!-- bootstrap nav -->
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container ">
-              <a class="navbar-brand mr-auto" href="">Social blog</a>
+              <a class="navbar-brand mr-auto"><i class="fas fa-users"></i><b>&nbsp;Social blog</b></a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
+                  <li class="nav-item" data-toggle="modal" data-target="#contactMe"><a href="" class="nav-link">Contact me</a></li>
                   {% if user.is_authenticated %}
-                        
+                      
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Posts
@@ -46,7 +47,7 @@
 
                         <li class="nav-item d-flex align-items-around ml-lg-3">
                           <a href="{% url 'profiles:my_profile_view'%}" class="nav-link">
-                            <img alt="Image" src={{picture.url}} class="avatar avatar-sm" style="width: 30px; height: 30px;">&nbsp; My profile
+                            <img alt="Image" src={{picture.url}} class="avatar" style="width: 30px; height: 30px;">&nbsp; My profile
                           </a>
                         </li>
 
@@ -74,11 +75,12 @@
 
                             <a href="{% url 'home' %}" class="p-2">Home</a>
 
-                            <a href="{% url 'profiles:all_profiles_list'%}" class="p-2 dropdown dropright dropdown-toggle " data-toggle="dropdown">
+                            <a href="{% url 'profiles:all_profiles_list'%}" class="p-2 dropdown-toggle " data-toggle="dropdown">
                               Profiles
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'profiles:my_invites_view'%}">My invites {{invitations_no}}</a>
+                                <a class="dropdown-item" href="{% url 'profiles:my_invites_view'%}">My invites <b>( {{invitations_no}} )</b></a>
                                 <a class="dropdown-item" href="{% url 'profiles:all_profiles_list'%}">Browse all profiles</a>
+                                <li><a class="dropdown-item" href="{% url 'profiles:invite_profiles_view' %}">Find new friends</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <a class="dropdown-item" href="{% url 'profiles:my_profile_view'%}">My profile</a>
                               </div>
@@ -104,11 +106,53 @@
             </div>
       <!-- Main content end -->
         </div>  
-      <div class="footer">
+      <div class="footer_text">
           <div class="row">
               <div class="col-sm-12">
-                  <div class="bg-light p-3">Footer content...</div>
+                 <div class="footer_text" data-toggle="modal" data-target="#contactMe">
+                   If you have any questions, please click 
+                   <button type="button" class="btn btn-outline-secondary btn-sm">Send email</button>  
+                   to contact me
+                  </div>
               </div>
           </div>
+      </div>
+      <!-- MODAL -->
+        <div class="modal" id="contactMe">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title line_content">Contact me</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form id="contact-form" method="POST" action="{% url 'send_email' %}">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="email">Your Email address:</label>
+                    <input type="email" class="form-control" placeholder="Enter email" id="email" name="email">
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Your name:</label>
+                    <input type="text" class="form-control" placeholder="Leave your name (optional)" id="name" name="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" placeholder="(optional)" id="subject" name="subject">
+                  </div>
+                  <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" placeholder="Leave your message" id="message" name="message"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary mb-2">Send</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    <!-- END MODAL -->
+      
+  
+
       </div>
     </div>

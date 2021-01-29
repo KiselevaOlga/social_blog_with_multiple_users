@@ -28,4 +28,5 @@ urlpatterns = [
     path('posts/', include('posts.urls', namespace='posts')),
     path('groups/', include('groups.urls', namespace='groups')),
     path('profiles/', include('profiles.urls', namespace='profiles')),
+    path('send_email/', views.send_email, name='send_email'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

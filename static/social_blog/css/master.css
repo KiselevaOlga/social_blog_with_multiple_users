@@ -6,35 +6,85 @@ white
 #FFCCBC - PINK
 #00887A - GREEN
 */
-
+/* Base file */
 .main-container{
     background: white;
+    font-family: 'Alike Angular', serif;
 }
-.navbar, .side{
+.navbar, .side, .dropdown-menu{
     background:#D3E3FC; 
 }
-
-.card-header, .card-footer{
-    background:  #FFCCBC;
-    color: rgb(20, 20, 20);
-}
-.comment_like{
-    border: 1px solid#FFCCBC;
+.footer_text{
+    background:#D3E3FC; 
+    color:rgb(121, 121, 121);
+    padding-left: 5px;
 }
 a{
-    color: rgb(59, 60, 63);
+    color: rgb(0, 0, 0);
 }
 a:hover{
-    color:#FFCCBC;
-}
-.btn:hover{
-    background:#00887A ;
+    color:#00887A;
 }
 .avatar{
     width: 100px;
     height: 100px;
     object-fit:cover;
     border-radius: 50%;
+}
+
+#home-header, .email_succes{
+    text-align: center;
+}
+
+p{
+    text-indent: 30px;
+    font-family: 'Open Sans', sans-serif;
+}
+.navbar-brand{
+    color: #00887A !important;
+}
+tr {
+    border-bottom: 1px solid #FFCCBC;
+}
+hr{
+    color: #FFCCBC;
+}
+.dropdown-divider{
+    color: white;
+    border: 2px solid white;
+}
+.nav-link{
+    color: black !important;
+}
+/* Base file */
+
+/* Buttons */
+.btn:hover{
+    background:#00887A ;
+}
+.btn-primary{
+    background:#00887A ;
+    color: rgb(255, 255, 255);
+    border-color:#77A6F7 ;
+}
+.btn{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+#member_join_leave, #members_in_group{
+    width: 200px;
+    margin: 20px;
+    display: inline;
+}
+/* Buttons */
+
+/* Cards */
+.card-header, .card-footer{
+    background:  #FFCCBC;
+    color: rgb(20, 20, 20);
+}
+.comment_like{
+    border: 1px solid#FFCCBC;
 }
 .card-title{
     border-bottom: 1px solid #FFCCBC;
@@ -44,40 +94,23 @@ a:hover{
     background-color: white;
     border: 1px solid#FFCCBC;
 }
-.btn-primary{
-    background:#77A6F7;
-    color: black;
-    border-color: #00887A ;
+.profile_card{
+    max-height: 200px;
 }
-.btn{
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-#home-header{
-    color: black;
-}
-#member_join_leave, #members_in_group{
-    width: 200px;
-    margin: 20px;
-    display: inline;
+.myprofile_friends, .detail_friends, .detail_post{
+    cursor: pointer;
 }
 
-p{
-    text-indent: 30px;
-}
-.navbar-brand{
-    color: #00887A !important;
-}
 .img-thumbnail{
     border: none;
     background: white;
 }
-tr {
+
+.post_content, .profile_name, .line_content {
     border-bottom: 1px solid #FFCCBC;
 }
-.post_content{
-    border-bottom: 1px solid #FFCCBC;
-}
-.myprofile_friends, .detail_friends{
-    cursor: pointer;
-}
+/* Cards */
+
+
+
+

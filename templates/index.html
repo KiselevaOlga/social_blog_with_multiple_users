@@ -1,0 +1,11 @@
+{% extends 'base.html'%}
+{% block content%}
+    <h1 class="line_content" id="home-header">Welcome to home page!</h1>
+    <p>Hello everyone! This site is made for a portfolio, 
+        to have the whole experience of using a social blog, 
+         click on the Log In button below where you will find the provided user profile for testing!. 
+        Or you can register through the Sign Up button, where you can also use fake data. 
+        Please don't leave your real email or name, thank you!</p>
+    <a href="{% url 'accounts:login'%}"><button class='btn btn-primary'>Log In</button></a>
+    <a href="{% url 'accounts:signup'%}"><button class='btn btn-primary'>Sign Up</button></a>
+{% endblock %}

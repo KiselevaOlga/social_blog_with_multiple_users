@@ -2,7 +2,12 @@
 {% load bootstrap4 %}
 {% block content%}
     <div class="container">
-        <h1>Sign Up!</h1>
+        <h1 class="line_content">Sign Up!</h1>
+        <h6>If you do not want to leave your personal data, 
+            just simply go to Log In, where you can find the provided user profile for testing!</h6>
+            
+        <h7>You can leave fake data. Please don't leave your real email or name, thank you!</h7><br>
+        <a href="{% url 'accounts:login' %}"><button class='btn btn-primary'>Log In</button></a>
         <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}

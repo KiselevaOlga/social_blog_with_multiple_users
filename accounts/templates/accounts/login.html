@@ -2,7 +2,11 @@
 {% load bootstrap4 %}
 {% block content%}
     <div class="container">
-        <h1>Log In!</h1>
+        <h1 class="line_content">Log In!</h1>
+        <h6>If you don't want to leave your personal data, you can use next user profile testing for testing: <br>
+        User: testuser<br>
+        Password: testtouse
+        </h6>
         <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}

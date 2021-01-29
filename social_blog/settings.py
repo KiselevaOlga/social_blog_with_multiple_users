@@ -127,13 +127,22 @@ AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 #STATIC_ROOT = Path.joinpath(BASE_DIR, 'static')
 
-# LOGIN and LOGOUT users, later can add special html files with 'thanks, you are logged in', 'You are logged out!'
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [Path.joinpath(BASE_DIR, 'static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
-# change these files
+
+# LOGIN and LOGOUT 
 LOGIN_REDIRECT_URL = 'profiles:my_profile_view'
 LOGOUT_REDIRECT_URL = 'thanks'
+
+# EMail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''

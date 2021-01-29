@@ -39,7 +39,7 @@
                                 {% endif %}
                                 </button>
                             </form>
-                            <div class="card-header" style='width:auto;' data-toggle="collapse" data-target="#comment_box">
+                            <div class="card-header detail_post" style='width:auto;' data-toggle="collapse" data-target="#comment_box">
                                 <h6><i class="fas fa-comment-alt"></i>  {{ obj.num_comments }} comment{{obj.num_comments|pluralize}}</h6>
                             </div>
                             <ul class="collapse list-unstyled" id="comment_box">
@@ -86,7 +86,7 @@
                             {% endif %}
                             </button>
                         </form>
-                        <div class="card-header" style='width:auto;' data-toggle="collapse" data-target="#comment_box">
+                        <div class="card-header detail_post" style='width:auto;' data-toggle="collapse" data-target="#comment_box">
                             <h6><i class="fas fa-comment-alt"></i>  {{ obj.num_comments }} comment{{obj.num_comments|pluralize}}</h6>
                         </div>
                         {% if obj.comment_set.all %}

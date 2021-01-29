@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-8 d-flex align-items-center">
           <div class="card-body">
-            <a href="{{obj.get_absolute_url}}"><h5 style="border-bottom: 1px solid black" class="card-title">{{obj.user}}</h5></a>
+            <a href="{{obj.get_absolute_url}}"><h5 class="card-title profile_name">{{obj.user}}</h5></a>
             <h6 class="card-text">Bio: {{obj.bio|slice:100}}...</h6>
             <form method="post" action="{% url 'profiles:accept_invite' %}">
               {% csrf_token %}

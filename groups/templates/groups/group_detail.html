@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 {% extends 'base.html'%}
 {% block content %}
-    <h1>{{group.name}}</h1>
-    <h3>{{group.description_html|safe}}</h3><hr>
+    <h1 class="line_content">{{group.name}}</h1>
+    <h4>{{group.description_html|safe}}</h4>
 
     <button type="button" class="btn btn-lg btn-primary" data-toggle="collapse" data-target="#list_profiles_in_group">
         Members: {{group.members.count}}
