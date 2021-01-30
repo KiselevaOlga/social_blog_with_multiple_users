@@ -33,21 +33,5 @@
         </div>
       </div>
     </div>
-    <!-- <img style="width: 10%" class="mr-3 mt-3 rounded-circle" src="{{ obj.avatar.url }}"><br>
-    <h3>{{obj.user}}</h3>
-    <h3>{{obj.bio}}</h3>
-    <button href="">See profile</button><br>
-    
-    <form method="post" action="{% url 'profiles:accept_invite' %}">
-      {% csrf_token %}
-      <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
-      <button class="btn btn-succes" type="submit">Accept invite</button>
-    </form>
-    
-    <form method="post" action="{% url 'profiles:reject_invite' %}">
-      {% csrf_token %}
-      <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
-      <button class="btn btn-danger" type="submit">Reject invite</button>
-    </form> -->
   {% endfor %}
 {% endblock content %}

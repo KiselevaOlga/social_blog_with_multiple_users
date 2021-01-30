@@ -48,9 +48,9 @@
                   src="{{friend.profile.avatar.url}}"></a><br>{{friend.profile}}
                 </li>
                 {% endfor %} 
-                <a href="{% url 'profiles:all_profiles_list'%}">Find more...</a>
               </ul>
             </div>
+            <a class="card-footer" href="{% url 'profiles:invite_profiles_view'%}">Add new friends...</a>
           </div>
           <div class="modal" id="modalFriends">
             <div class="modal-dialog">
@@ -81,6 +81,8 @@
                     <a href="{% url 'groups:single' slug=item.slug %}"><h6>{{item.name}}</h6></a>
                 {% endif %}
               {% endfor %}
+            </div>
+            <div class="card-footer">
               <a href="{% url 'groups:all' %}"><h6>See more groups...</h6></a>
             </div>
           </div>

@@ -30,7 +30,7 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                  <a href="" data-toggle="modal" data-target="#contactMe" class="nav-link">Contact me</a>
+                  <a href="" data-toggle="modal" data-target="#contactMe" class="nav-link">Contact blog creator</a>
                   {% if user.is_authenticated %}
                       
                         <li class="nav-item dropdown">
@@ -44,7 +44,9 @@
                             <li><a class="dropdown-item" href="{% url 'posts:post_create' %}">Create new post</a></li>
                           </ul>
                         </li>
-
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'profiles:my_invites_view'%}">My invites <b>( {{invitations_no}} )</b></a>
+                        </li>
                         <li class="nav-item d-flex align-items-around ml-lg-3">
                           <a href="{% url 'profiles:my_profile_view'%}" class="nav-link">
                             <img alt="Image" src={{picture.url}} class="avatar" style="width: 30px; height: 30px;">&nbsp; My profile
@@ -79,7 +81,6 @@
                             <a href="{% url 'profiles:all_profiles_list'%}" class="p-2 dropdown-toggle" data-toggle="dropdown">
                               Profiles
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'profiles:my_invites_view'%}">My invites <b>( {{invitations_no}} )</b></a>
                                 <a class="dropdown-item" href="{% url 'profiles:all_profiles_list'%}">Browse all profiles</a>
                                 <li><a class="dropdown-item" href="{% url 'profiles:invite_profiles_view' %}">Find new friends</a></li>
                                 <li><hr class="dropdown-divider"></li>
@@ -110,7 +111,7 @@
                  <div class="footer_text" data-toggle="modal" data-target="#contactMe">
                    If you have any questions, please click 
                    <button type="button" class="btn btn-outline-secondary btn-sm footer_text">Send email</button>  
-                   to contact me
+                   to contact blog creator
                   </div>
               </div>
           </div>

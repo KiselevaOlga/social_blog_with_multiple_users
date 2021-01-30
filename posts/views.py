@@ -18,9 +18,7 @@ from django.http import HttpResponseRedirect
 def friends_posts(request):
     profile = Profile.objects.get(user=request.user)
     # check who we are following
-    users = [user for user in profile.friends.all()]
-    comment_form = CommentModelForm
-    # initital values for vars 
+    users = [user for user in profile.friends.all()] 
     posts = []
     qs = None
     for one_user in users:
@@ -29,20 +27,10 @@ def friends_posts(request):
         posts.append(prof_posts)
     if len(posts) >0:
         qs = sorted(chain(*posts), reverse=True, key=lambda obj: obj.created)
-        
-    if 'submit_comment_form' in request.POST:
-        comment_form = CommentModelForm(request.POST)
-        if comment_form.is_valid():
-            instance = comment_form.save(commit=False)
-            instance.user = profile
-            instance.post = Post.objects.get(id=request.POST.get('post_id'))
-            instance.save()
-            comment_form = CommentModelForm()
 
     context = {
         'posts': qs,
         'users': users,
-        'comment_form': comment_form,
     }
     return render(request, 'posts/friends_posts.html', context)
 
@@ -103,24 +91,13 @@ class PostDetail(FormMixin, DetailView):
 
 
 @login_required
-def comment_create_and_list_view(request):
+def post_list_view(request):
     qs = Post.objects.all()
     profile = Profile.objects.get(user=request.user)
-    comment_form = CommentModelForm()
-
-    if 'submit_comment_form' in request.POST:
-        comment_form = CommentModelForm(request.POST)
-        if comment_form.is_valid():
-            instance = comment_form.save(commit=False)
-            instance.user = profile
-            instance.post = Post.objects.get(id=request.POST.get('post_id'))
-            instance.save()
-            comment_form = CommentModelForm()
 
     context = {
         'qs': qs,
         'profile': profile,
-        'comment_form': comment_form,
     }
     return render(request, 'posts/main.html', context)
 
@@ -156,7 +133,6 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'posts/confirm_del.html'
     success_url = reverse_lazy('posts:all_posts')
-    # success_url = '/posts/'
 
     def get_object(self, *args, **kwargs):
         pk = self.kwargs.get('pk')
@@ -169,8 +145,10 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     form_class = PostModelForm
     model = Post
     template_name = 'posts/update.html'
-    success_url = reverse_lazy('posts:all_posts')
-
+    #success_url = reverse_lazy('posts:all_posts')
+    def get_success_url(self):
+        return reverse('posts:single', kwargs={'pk': self.object.id})
+        
     def form_valid(self, form):
         profile = Profile.objects.get(user=self.request.user)
         if form.instance.author == profile:
@@ -178,3 +156,24 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.add_error(None, "You need to be the author of the post in order to update it")
             return super().form_invalid(form)
+
+
+# def comment_create_and_list_view(request):
+#     qs = Post.objects.all()
+#     profile = Profile.objects.get(user=request.user)
+#     comment_form = CommentModelForm()
+
+#     if 'submit_comment_form' in request.POST:
+#         comment_form = CommentModelForm(request.POST)
+#         if comment_form.is_valid():
+#             instance = comment_form.save(commit=False)
+#             instance.user = profile
+#             instance.post = Post.objects.get(id=request.POST.get('post_id'))
+#             instance.save()
+#             comment_form = CommentModelForm()
+#     context = {
+#         'qs': qs,
+#         'profile': profile,
+#         'comment_form': comment_form,
+#     }
+#     return render(request, 'posts/main.html', context)

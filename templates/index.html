@@ -6,7 +6,21 @@
     <h1 class="line_content home-header">Welcome to home page!</h1>
     
     {% if user.is_authenticated %}
-        <p>Hello everyone! This site is made for a portfolio, I hope you will enjoy the time you spend here!</p>
+        <p>Hello everyone! This site is made for a portfolio, I hope you will enjoy the time you spend here!</p><br>
+        <table class="d-flex justify-content-center">
+            <tr>
+                <td>Create new post </td>
+                <td><a href="{% url 'posts:post_create'%}"><button class='btn btn-primary m-3'>Create new post</button></a></td>
+            </tr>
+            <tr>
+                <td>Or create new group </td>
+                <td><a href="{% url 'groups:create'%}"><button class='btn btn-primary m-3'>Create new group</button></a></td>
+            </tr>
+            <tr>
+                <td>You can also follow your friends</td>
+                <td><a href="{% url 'profiles:all_profiles_list'%}"><button class='btn btn-primary m-3'>Find new friends</button></a></td>
+            </tr>
+        </table>
     {% else %}
         <p>Hello everyone! This site is made for a portfolio,
             to have the whole experience of using a social blog, 

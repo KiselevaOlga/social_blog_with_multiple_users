@@ -25,15 +25,14 @@
             <a href="{% url 'posts:post_delete' post.pk %}"><button class="btn btn-danger fluid">Delete</button></a>
         {% endif %}
         </div>  
-        <h6><i class="fas fa-heart"></i> {{post.num_likes}} like{{post.num_likes|pluralize}} </h6>
         <form action="{% url 'posts:like_post_view' %}" method="POST" id="{{post.id}}" >
             {% csrf_token %}
             <input type="hidden" name="post_id_like" value="{{post.id}}">
             <button type="submit" class="btn btn-primary" >
             {% if user not in post.get_users_liked %}
-                Like
+            <i class="fas fa-heart">&nbsp; Like</i>
             {% else %}
-                Unlike
+            <i class="fas fa-heart">&nbsp; Unlike</i>
             {% endif %}
             </button>
         </form>

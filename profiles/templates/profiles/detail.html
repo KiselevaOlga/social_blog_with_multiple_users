@@ -25,8 +25,21 @@
           <form method='POST' action="{% url 'profiles:remove_friend'%}">
             {% csrf_token %}
             <input type="hidden" name='profile_pk' value='{{object.pk}}'>
-            <button type="submit" class="btn btn-danger">Remove from friends</button>
+            <button type="submit" class="btn btn-danger long_button">Remove from friends</button>
           </form>
+        {% endif %}
+        {% if object.user in rel_sender and request.user not in object.friends.all  %}
+          <form method="post" action="{% url 'profiles:accept_invite' %}">
+            {% csrf_token %}
+            <input type="hidden" name="profile_pk" value="{{ object.pk}}">
+            <button class="btn btn-success" type="submit">Accept invite</button>
+          </form>
+          
+          <form method="post" action="{% url 'profiles:reject_invite' %}">
+            {% csrf_token %}
+            <input type="hidden" name="profile_pk" value="{{ object.pk}}">
+            <button class="btn btn-danger" type="submit">Reject invite</button>
+          </form> 
         {% endif %}
       {% endif %}
       <div class='card'>
@@ -45,7 +58,6 @@
               src="{{friend.profile.avatar.url}}"></a><br>{{friend.profile}}
             </li>
             {% endfor %} 
-            <a href="{% url 'profiles:all_profiles_list'%}">FInd more...</a>
           </ul>
         </div>
       </div>
@@ -78,6 +90,8 @@
                     <a href="{% url 'groups:single' slug=item.slug %}"><h6>{{item.name}}</h6></a>
                 {% endif %}
             {% endfor %}
+        </div>
+        <div class="card-footer">
           <a href="{% url 'groups:all' %}"><h6>See more groups...</h6></a>
         </div>
       </div>

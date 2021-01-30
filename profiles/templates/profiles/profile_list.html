@@ -33,9 +33,22 @@
                 <form method='POST' action="{% url 'profiles:remove_friend'%}">
                   {% csrf_token %}
                   <input type="hidden" name='profile_pk' value='{{obj.pk}}'>
-                  <button type="submit" class="btn btn-danger">Remove from friends</button>
+                  <button type="submit" class="btn btn-danger long_button">Remove from friends</button>
                 </form>
             {% endif %}
+            {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                <form method="post" action="{% url 'profiles:accept_invite' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
+                  <button class="btn btn-success" type="submit">Accept invite</button>
+                </form>
+                
+                <form method="post" action="{% url 'profiles:reject_invite' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="profile_pk" value="{{ obj.pk}}">
+                  <button class="btn btn-danger" type="submit">Reject invite</button>
+                </form> 
+          {% endif %}
           </div>
         </div>
       </div>
