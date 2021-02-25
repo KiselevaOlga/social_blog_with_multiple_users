@@ -1,6 +1,6 @@
 # Social blog with multiple users
 
-Social blog with responsive design created with Django, HTML, CSS3, Bootstrap4.
+Social blog with responsive design created with Django, HTML5, CSS3, Bootstrap4.
 
 ### In this application, you can:
 - write posts with or without images included and publish it
